@@ -1,7 +1,4 @@
-// query selector variables go here 👇
-
-// we've provided you with some data to work with 👇
-// tip: you can tuck this data out of view with the dropdown found near the line number where the variable is declared 
+// SAVED ARRAYS
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -99,21 +96,320 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
+let unmotivationalPosters = [
+  {
+    name: "FAILURE",
+    description: "Why bother trying? It's probably not worth it.",
+    price: 68.00,
+    year: 2019,
+    vintage: true,
+    img_url: "./assets/failure.jpg",
+  },
+  {
+    name: "MEDIOCRITY",
+    description: "Dreams are just that—dreams.",
+    price: 127.00,
+    year: 2021,
+    vintage: false,
+    img_url: "./assets/mediocrity.jpg",
+  },
+  {
+    name: "REGRET",
+    description: "Hard work rarely pays off.",
+    price: 89.00,
+    year: 2018,
+    vintage: true,
+    img_url:  "./assets/regret.jpg",
+  },
+  {
+    name: "FUTILITY",
+    description: "You're not good enough.",
+    price: 150.00,
+    year: 2016,
+    vintage: false,
+    img_url:  "./assets/futility.jpg",
+  },
+  {
+    name: "DEFEAT",
+    description: "It's too late to start now.",
+    price: 35.00,
+    year: 2023,
+    vintage: false,
+    img_url:  "./assets/defeat.jpg",
+  },
+  {
+    name: "HOPELESSNESS",
+    description: "Stay in your comfort zone; it's safer.",
+    price: 112.00,
+    year: 2020,
+    vintage: true,
+    img_url: "./assets/hopelessness.jpg",
+  },
+  {
+    name: "LAZINESS",
+    description: "You can't change anything.",
+    price: 25.00,
+    year: 2022,
+    vintage: false,
+    img_url: "./assets/laziness.jpg",
+  },
+  {
+    name: "PROCRASTINATION",
+    description: "Better to avoid failure by not trying at all.",
+    price: 48.00,
+    year: 2017,
+    vintage: true,
+    img_url: "./assets/procrastination.jpg",
+  },
+  {
+    name: "DESPAIR",
+    description: "Let someone else do it; you’ll just mess it up.",
+    price: 73.00,
+    year: 2015,
+    vintage: false,
+    img_url: "./assets/despair.jpg",
+  },
+  {
+    name: "NEGLECT",
+    description: "Happiness is overrated.",
+    price: 160.00,
+    year: 2019,
+    vintage: true,
+    img_url: "./assets/neglect.jpg",
+  },
+  {
+    name: "FEAR",
+    description: "Giving up is always an option.",
+    price: 91.00,
+    year: 2014,
+    vintage: false,
+    img_url: "./assets/fear.jpg",
+  },
+  {
+    name: "APATHY",
+    description: "No one cares about your effort.",
+    price: 110.00,
+    year: 2016,
+    vintage: true,
+    img_url: "./assets/apathy.jpg",
+  },
+  {
+    name: "MISERY",
+    description: "Why take risks when you can stay stagnant?",
+    price: 55.00,
+    year: 2021,
+    vintage: false,
+    img_url: "./assets/misery.jpg",
+  },
+  {
+    name: "BLAME",
+    description: "Expect disappointment and you'll never be disappointed.",
+    price: 39.00,
+    year: 2017,
+    vintage: true,
+    img_url: "./assets/blame.jpg",
+  },
+  {
+    name: "DOUBT",
+    description: "Success is for other people, not you.",
+    price: 140.00,
+    year: 2020,
+    vintage: false,
+    img_url: "./assets/doubt.jpg",
+  }
+];
+let unmotivationalPostersCleaned = [];
 var savedPosters = [];
-var currentPoster;
 
+let firstClick = true;
+
+// query selector variables go here 👇
+let title = document.querySelector(".poster-title");
+let image = document.querySelector(".poster-img");
+let quote = document.querySelector(".poster-quote");
+var posterFormSection = document.querySelector(".poster-form");
+var savedPostersSection = document.querySelector(".saved-posters");
+var savedPostersGrid = document.querySelector(".saved-posters-grid");
+var mainPosterSection = document.querySelector(".main-poster");
+var returnHome = document.querySelector(".back-to-main");
+var unmotivationalPostersSection = document.querySelector(".unmotivational-posters");
+var unmotivationalPostersGrid = document.querySelector(".unmotivational-posters-grid");
+var unmotivationalMiniPoster = document.querySelector(".unmotivational-mini-poster");
+var unmotivationalMiniPosterShell = document.querySelector(".unmotivational-mini-posters");
+// USER INPUT
+var inputURL = document.querySelector("#poster-image-url");
+var inputTitle = document.querySelector("#poster-title");
+var inputQuote = document.querySelector("#poster-quote");
+// BUTTON VARIABLES
+var buttonShowRandom = document.querySelector(".show-random");
+var buttonShowForm = document.querySelector(".show-form");
+var buttonMakeYourOwn = document.querySelector(".make-poster");
+var buttonSaveThisPoster = document.querySelector(".save-poster");
+var buttonShowSaved = document.querySelector(".show-saved");
+var buttonShowUnmo= document.querySelector(".show-unmotivational");
+var buttonShowMain = document.querySelector(".show-main");
+var buttonBackToMain = document.querySelector(".back-to-main");
+var buttonBackToMain2 = document.querySelector(".back-to-main-2");
 // event listeners go here 👇
+buttonShowRandom.addEventListener("click", displayRandomPoster);
+buttonShowForm.addEventListener("click", unhideForm);
+buttonShowSaved.addEventListener("click", showSaved);
+buttonMakeYourOwn.addEventListener("click", createPoster);
+buttonSaveThisPoster.addEventListener("click", savePoster);
+buttonShowUnmo.addEventListener("click", showUnmotivPosters);
+// back to main buttons
+buttonShowMain.addEventListener("click", returnMain);
+buttonBackToMain2.addEventListener("click", returnMain);
+buttonBackToMain.addEventListener("click", returnMain);
+
+unmotivationalPostersGrid.addEventListener("dblclick", deletePoster)
 
 // functions and event handlers go here 👇
-// (we've provided two to get you started)!
+function displayRandomPoster() {
+  title.textContent = titles[getRandomIndex(titles)];
+  image.src = images[getRandomIndex(images)];
+  quote.textContent = quotes[getRandomIndex(quotes)];
+}
+function unhideForm() {
+  posterFormSection.classList.remove("hidden");
+  mainPosterSection.classList.add("hidden");
+  savedPostersSection.classList.add("hidden");
+  unmotivationalPostersSection.classList.add("hidden");
+  returnHome.classList.remove("hidden");
+}
+function showSaved() {
+  savedPostersSection.classList.remove("hidden");
+  mainPosterSection.classList.add("hidden");
+  returnHome.classList.remove("hidden");
+  posterFormSection.classList.add("hidden");
+
+  // SEPARATE TO ITS OWN FUNCTION
+  savedPosters.forEach((poster) => {
+    savedPostersGrid.innerHTML += 
+    `<article class="mini-poster">
+        <img class="mini-poster img" src="${poster.image}">
+        <h2 class="mini-poster">${poster.title}</h2>
+        <h4 class="mini-poster">${poster.quote}</h4>
+      </div>`;
+  });
+}
+function savePoster() {
+  // Create the current poster object with actual values from the inputs
+  let currentPoster = {
+    title: title.textContent,
+    image: image.src,
+    quote: quote.textContent
+  };
+
+  // Check if the poster already exists in savedPosters
+  const exists = savedPosters.some(savedPoster => 
+    savedPoster.title === currentPoster.title &&
+    savedPoster.image === currentPoster.image &&
+    savedPoster.quote === currentPoster.quote
+  );
+
+  if (!exists) {
+     savedPosters.push(currentPoster);
+    alert("Poster saved!");
+  } else {
+    alert("Poster has already been saved.");
+  }
+
+  console.log(savedPosters); // For debugging
+}
+function createPoster() {
+  event.preventDefault();  
+
+  let titleValue = inputTitle.value;
+  let imageValue = inputURL.value;
+  let quoteValue = inputQuote.value; 
+
+  // Create the poster
+  let currentPoster = {
+    title: titleValue,
+    image: imageValue,
+    quote: quoteValue
+  };
+
+  if (!images.includes(imageValue)) images.push(imageValue);
+  if (!titles.includes(titleValue)) titles.push(titleValue);
+  if (!quotes.includes(quoteValue)) quotes.push(quoteValue);
+
+  mainPosterSection.classList.remove("hidden");
+  posterFormSection.classList.add("hidden");
+  returnHome.classList.add("hidden");
+
+  updateMainPosterDisplay(currentPoster);
+}
+function updateMainPosterDisplay(poster) {
+  title.textContent = poster.title;
+  image.src = poster.image;
+  quote.textContent = poster.quote;
+}
+function showSaved() {
+  savedPostersSection.classList.remove("hidden");
+  mainPosterSection.classList.add("hidden");
+  returnHome.classList.remove("hidden");
+  posterFormSection.classList.add("hidden");
+
+  // savedPosters is an array containing all elements; loop through all
+  savedPosters.forEach(poster => {
+    savedPostersGrid.innerHTML += 
+    `<article class="mini-poster">
+        <img class="mini-poster img" src="${poster.image}">
+        <h2 class="mini-poster">${poster.title}</h2>
+        <h4 class="mini-poster">${poster.quote}</h4>
+      </div>`;
+  });
+}
+function returnMain() {
+  mainPosterSection.classList.remove("hidden");
+  posterFormSection.classList.add("hidden");
+  savedPostersSection.classList.add("hidden");
+  unmotivationalPostersSection.classList.add("hidden");
+}
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
-function createPoster(imageURL, title, quote) {
-  return {
-    id: Date.now(), 
-    imageURL: imageURL, 
-    title: title, 
-    quote: quote}
+function showUnmotivPosters() {
+  unmotivationalPostersSection.classList.remove("hidden");
+  savedPostersSection.classList.add("hidden");
+  mainPosterSection.classList.add("hidden");
+  returnHome.classList.remove("hidden");
+  posterFormSection.classList.add("hidden");
 }
+
+function cleanData() {
+  unmotivationalPosters.forEach(poster => {
+    let title = poster.name;
+    let quote = poster.description;
+    let image = poster.img_url;
+    let id = Math.floor(Math.random() * 100000);
+
+    unmotivationalPostersCleaned.push({id, title, quote, image})
+
+  /// write into separate function where cleaned data set information is used
+    let miniPosterCleanHTML =
+    `<article class="unmotivational-mini-poster-container" id="${id}">
+        <img class="unmotivational-mini-poster-container  img" src="${poster.img_url}">
+        <h2 class="unmotivational-mini-poster-container">${poster.name}</h2>
+        <h4 class="unmotivational-mini-poster-container">${poster.description}</h4>
+    </article>`;
+
+    unmotivationalMiniPosterShell.innerHTML += miniPosterCleanHTML;
+  })
+}
+
+function deletePoster(event){
+  let target = event.target
+  let parent = document.getElementById(target.parentNode.id)
+  let parentId = target.parentNode.id
+
+  target.remove()
+  if (parentId > 0) {
+    parent.remove()
+  }
+}
+
+window.onload = displayRandomPoster, cleanData(unmotivationalPosters)
